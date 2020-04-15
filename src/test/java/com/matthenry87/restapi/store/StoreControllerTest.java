@@ -2,7 +2,6 @@ package com.matthenry87.restapi.store;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matthenry87.restapi.exception.GlobalExceptionHandler;
-import com.matthenry87.restapi.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -143,6 +142,15 @@ class StoreControllerTest {
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void delete_works() throws Exception {
+        // Act/Assert
+        mockMvc.perform(delete("/store/1"))
+                .andExpect(status().isNoContent());
+
+        verify(storeService).deleteStore("1");
     }
 
     private StoreModel createStoreModel() {

@@ -70,7 +70,14 @@ public class StoreController {
         return ResponseEntity.ok(storeModel);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+
+        storeService.deleteStore(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 interface UpdateStore {}
 
 }
-
