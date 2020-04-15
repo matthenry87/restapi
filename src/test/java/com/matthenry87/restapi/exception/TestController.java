@@ -1,0 +1,63 @@
+package com.matthenry87.restapi.exception;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.*;
+import javax.validation.constraints.NotEmpty;
+import java.util.Set;
+
+@RestController
+@RequestMapping("/test")
+class TestController {
+
+    private final Pojo mock;
+
+    TestController(Pojo mock) {
+        this.mock = mock;
+    }
+
+    @PostMapping
+    public Object post(@RequestBody @Valid Pojo pojo) {
+
+        mock.foo();
+
+        return null;
+    }
+
+    @PutMapping
+    public Object constraintViolationException() {
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+
+        Validator validator = validatorFactory.getValidator();
+
+        Set<ConstraintViolation<Pojo>> constraintViolations = validator.validate(new Pojo());
+
+        throw new ConstraintViolationException(constraintViolations);
+    }
+
+}
+
+@Getter
+@Setter
+@Component
+@NoArgsConstructor
+class Pojo {
+
+    @NotEmpty
+    private String foo;
+
+    private Status status;
+
+    public Object foo() { return null; }
+
+}
+
+enum Status {
+
+    OPEN, CLOSED
+}
