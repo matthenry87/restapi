@@ -16,13 +16,13 @@ public class StoreModel {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
 
-    @NotEmpty
+    @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
     private String name;
 
-    @NotEmpty
+    @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
     private String address;
 
-    @NotEmpty
+    @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
     private String phone;
 
     @NotNull(groups = StoreController.UpdateStore.class)

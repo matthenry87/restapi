@@ -145,6 +145,25 @@ class StoreControllerTest {
     }
 
     @Test
+    void put_Returns400_whenAddressOmitted() throws Exception {
+        // Arrange
+        StoreModel storeModel = createStoreModel();
+        storeModel.setAddress(null);
+
+        String json = objectMapper.writeValueAsString(storeModel);
+
+        StoreEntity storeEntity = new StoreEntity();
+
+        when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
+
+        // Act/Assert
+        mockMvc.perform(put("/store/1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void delete_works() throws Exception {
         // Act/Assert
         mockMvc.perform(delete("/store/1"))

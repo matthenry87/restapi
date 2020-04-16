@@ -44,7 +44,7 @@ public class StoreController {
     }
 
     @PostMapping
-    public ResponseEntity<StoreModel> post(@RequestBody @Valid StoreModel storeModel) {
+    public ResponseEntity<StoreModel> post(@RequestBody @Validated(CreateStore.class) @Valid StoreModel storeModel) {
 
         StoreEntity storeEntity = storeMapper.toEntity(storeModel);
 
@@ -57,7 +57,6 @@ public class StoreController {
     }
 
     @PutMapping("/{id}")
-    @Validated(UpdateStore.class)
     public ResponseEntity<StoreModel> put(@RequestBody @Validated(UpdateStore.class) @Valid StoreModel storeModel,
                                           @PathVariable String id) {
 
@@ -79,5 +78,6 @@ public class StoreController {
     }
 
 interface UpdateStore {}
+interface CreateStore {}
 
 }
