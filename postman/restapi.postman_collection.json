@@ -71,7 +71,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Store 4\",\n\t\"address\": \"132 High St\",\n\t\"phone\": \"3039987473\"\n}",
+					"raw": "{\n\t\"name\": \"Store 1\",\n\t\"address\": \"132 High St\",\n\t\"phone\": \"3039987473\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,7 +105,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Store 4\",\n\t\"address\": \"132 High St\",\n\t\"phone\": \"3039987473\",\n\t\"status\": \"foo\"\n}",
+					"raw": "{\n\t\"name\": \"Store 4\",\n\t\"phone\": \"3039987473\",\n\t\"status\": \"CLOSED\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -178,7 +178,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Store 4\",\n\t\"address\": \"132 High St\",\n\t\"phone\": \"3039987473\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
