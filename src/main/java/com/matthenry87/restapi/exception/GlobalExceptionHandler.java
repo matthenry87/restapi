@@ -124,8 +124,8 @@ public class GlobalExceptionHandler {
     class Error {
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        private String field;
-        private String message;
+        private final String field;
+        private final String message;
 
     }
 
