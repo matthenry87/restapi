@@ -39,7 +39,10 @@ class StoreService {
 
     void updateStore(StoreEntity store) {
 
-        StoreEntity storeEntity = storeRepository.findById(store.getId())
+        storeRepository.findByNameAndIdNot(store.getName(), store.getId())
+                .ifPresent(x -> { throw new AlreadyExistsException("store with name already exists"); });
+
+        storeRepository.findById(store.getId())
                 .orElseThrow(NotFoundException::new);
 
         storeRepository.save(store);

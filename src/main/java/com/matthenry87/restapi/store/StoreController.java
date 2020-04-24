@@ -52,9 +52,9 @@ public class StoreController {
     @PutMapping("/{id}")
     public StoreModel put(@RequestBody @Validated(UpdateStore.class) StoreModel storeModel, @PathVariable String id) {
 
-        StoreEntity storeEntity = storeMapper.toEntity(storeModel);
+        storeModel.setId(id);
 
-        storeEntity.setId(id);
+        StoreEntity storeEntity = storeMapper.toEntity(storeModel);
 
         storeService.updateStore(storeEntity);
 

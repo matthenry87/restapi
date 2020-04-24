@@ -10,4 +10,6 @@ public interface StoreRepository extends MongoRepository<StoreEntity, String> {
 
     Optional<StoreEntity> findByName(String name);
 
+    Optional<StoreEntity> findByNameAndIdNot(String name, String id);
+
 }
