@@ -2,7 +2,7 @@
 Basic REST API
 
 This is a very basic REST API with a single resource. This project is nothing fancy. I created it because I'd like to 
-recreate it using a fully reactive stack, and again in Kotlin. The project has 89% test coverage (I don't test config 
+recreate it using a fully reactive stack, and again in Kotlin. The project has 94% test coverage (I don't test config 
 code and usually aim for 80%).
 
 Store
