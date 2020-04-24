@@ -9,11 +9,11 @@ import java.util.List;
 import static com.matthenry87.restapi.store.Status.OPEN;
 
 @Service
-public class StoreService {
+class StoreService {
 
     private final StoreRepository storeRepository;
 
-    public StoreService(StoreRepository storeRepository) {
+    StoreService(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
     }
 
@@ -22,7 +22,7 @@ public class StoreService {
         return storeRepository.findAll();
     }
 
-    public StoreEntity getStore(String id) {
+    StoreEntity getStore(String id) {
 
         return storeRepository.findById(id).orElseThrow(NotFoundException::new);
     }

@@ -17,8 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class StoreControllerTest {
 
@@ -68,10 +67,8 @@ class StoreControllerTest {
         // Act/Assert
         mockMvc.perform(get("/store/1"))
                 .andExpect(status().isOk())
-        .andExpect(jsonPath("name").value(storeModel.getName()))
-        .andExpect(jsonPath("address").value(storeModel.getAddress()))
-        .andExpect(jsonPath("phone").value(storeModel.getPhone()))
-        .andExpect(jsonPath("status").value(storeModel.getStatus().toString()));
+                .andExpect(content().json("{\"address\":\"123 High St\",\"name\":\"Store Name\"," +
+                        "\"phone\":\"3039993456\",\"status\":\"OPEN\"}"));
 
         verify(storeService).getStore("1");
         verify(storeMapper).toModel(storeEntity);
@@ -93,10 +90,8 @@ class StoreControllerTest {
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("name").value(storeModel.getName()))
-                .andExpect(jsonPath("address").value(storeModel.getAddress()))
-                .andExpect(jsonPath("phone").value(storeModel.getPhone()))
-                .andExpect(jsonPath("status").value(storeModel.getStatus().toString()));
+                .andExpect(content().json("{\"address\":\"123 High St\",\"name\":\"Store Name\"," +
+                        "\"phone\":\"3039993456\",\"status\":\"OPEN\"}"));
 
         verify(storeService).createStore(storeEntity);
     }
@@ -117,10 +112,8 @@ class StoreControllerTest {
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value(storeModel.getName()))
-                .andExpect(jsonPath("address").value(storeModel.getAddress()))
-                .andExpect(jsonPath("phone").value(storeModel.getPhone()))
-                .andExpect(jsonPath("status").value(storeModel.getStatus().toString()));
+                .andExpect(content().json("{\"address\":\"123 High St\",\"name\":\"Store Name\"," +
+                        "\"phone\":\"3039993456\",\"status\":\"OPEN\"}"));
 
         verify(storeService).updateStore(storeEntity);
     }

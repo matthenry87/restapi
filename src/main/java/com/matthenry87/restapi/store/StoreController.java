@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,29 +21,23 @@ public class StoreController {
     }
 
     @GetMapping
-    public ResponseEntity<List<StoreModel>> get() {
+    public List<StoreModel> get() {
 
-        List<StoreEntity> stores = storeService.getStores();
-
-        List<StoreModel> storeModels = stores.stream()
+        return storeService.getStores().stream()
                 .map(storeMapper::toModel)
                 .collect(Collectors.toList());
-
-        return ResponseEntity.ok(storeModels);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StoreModel> getById(@PathVariable String id) {
+    public StoreModel getById(@PathVariable String id) {
 
         StoreEntity storeEntity = storeService.getStore(id);
 
-        StoreModel storeModel = storeMapper.toModel(storeEntity);
-
-        return ResponseEntity.ok(storeModel);
+        return storeMapper.toModel(storeEntity);
     }
 
     @PostMapping
-    public ResponseEntity<StoreModel> post(@RequestBody @Validated(CreateStore.class) @Valid StoreModel storeModel) {
+    public ResponseEntity<StoreModel> post(@RequestBody @Validated(CreateStore.class) StoreModel storeModel) {
 
         StoreEntity storeEntity = storeMapper.toEntity(storeModel);
 
@@ -57,8 +50,7 @@ public class StoreController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StoreModel> put(@RequestBody @Validated(UpdateStore.class) @Valid StoreModel storeModel,
-                                          @PathVariable String id) {
+    public StoreModel put(@RequestBody @Validated(UpdateStore.class) StoreModel storeModel, @PathVariable String id) {
 
         StoreEntity storeEntity = storeMapper.toEntity(storeModel);
 
@@ -66,7 +58,7 @@ public class StoreController {
 
         storeService.updateStore(storeEntity);
 
-        return ResponseEntity.ok(storeModel);
+        return storeModel;
     }
 
     @DeleteMapping("/{id}")
