@@ -42,8 +42,6 @@ class StoreService {
         StoreEntity storeEntity = storeRepository.findById(store.getId())
                 .orElseThrow(NotFoundException::new);
 
-        store.setItems(storeEntity.getItems());
-
         storeRepository.save(store);
     }
 

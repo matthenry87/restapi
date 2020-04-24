@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,10 +13,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,24 +28,6 @@ public class GlobalExceptionHandler {
         List<Error> errors = fieldErrors.stream()
                 .map(x -> new Error(x.getField(), x.getDefaultMessage()))
                 .collect(Collectors.toList());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List<Error>> constraintViolationException(ConstraintViolationException e) {
-
-        List<Error> errors = new ArrayList<>();
-
-        for (ConstraintViolation<?> constraintViolation : e.getConstraintViolations()) {
-
-            Path propertyPath = constraintViolation.getPropertyPath();
-
-            String name = ((PathImpl) propertyPath).getLeafNode().getName();
-            String message = constraintViolation.getMessage();
-
-            errors.add(new Error(name, message));
-        }
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }

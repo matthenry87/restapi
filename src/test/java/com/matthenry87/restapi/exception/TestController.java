@@ -28,18 +28,6 @@ class TestController {
         return null;
     }
 
-    @PutMapping
-    public Object constraintViolationException() {
-
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-
-        Validator validator = validatorFactory.getValidator();
-
-        Set<ConstraintViolation<Pojo>> constraintViolations = validator.validate(new Pojo());
-
-        throw new ConstraintViolationException(constraintViolations);
-    }
-
 }
 
 @Getter

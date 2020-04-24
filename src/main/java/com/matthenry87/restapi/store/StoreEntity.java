@@ -6,9 +6,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @Document
@@ -19,7 +16,6 @@ public class StoreEntity {
     private String name;
     private String address;
     private String phone;
-    private List<Item> items = new ArrayList<>();
     private Status status;
 
 }
