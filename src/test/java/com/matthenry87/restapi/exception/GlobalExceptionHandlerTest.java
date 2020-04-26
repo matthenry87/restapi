@@ -22,14 +22,14 @@ class GlobalExceptionHandlerTest {
     @Mock
     private Pojo mock;
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void init() {
 
         MockitoAnnotations.initMocks(this);
 
-        TestController testController = new TestController(mock);
+        var testController = new TestController(mock);
 
         mockMvc = MockMvcBuilders.standaloneSetup(testController)
                 .setControllerAdvice(new GlobalExceptionHandler())
@@ -39,7 +39,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void methodArgumentNotValidException() throws Exception {
         // Arrange
-        String json = objectMapper.writeValueAsString(new Pojo());
+        var json = objectMapper.writeValueAsString(new Pojo());
 
         // Act/Assert
         mockMvc.perform(post("/test")
@@ -51,7 +51,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void alreadyExistsException() throws Exception {
         // Arrange
-        String json = createJson();
+        var json = createJson();
 
         when(mock.foo()).thenThrow(new AlreadyExistsException());
 
@@ -65,7 +65,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void notFoundException() throws Exception {
         // Arrange
-        String json = createJson();
+        var json = createJson();
 
         when(mock.foo()).thenThrow(new NotFoundException());
 
@@ -79,11 +79,11 @@ class GlobalExceptionHandlerTest {
     @Test
     void httpMessageNotReadableException() throws Exception {
         // Arrange
-        Pojo pojo = new Pojo();
+        var pojo = new Pojo();
         pojo.setFoo("foo");
         pojo.setStatus(Status.OPEN);
 
-        String json = objectMapper.writeValueAsString(pojo).replace("OPEN", "FOO");
+        var json = objectMapper.writeValueAsString(pojo).replace("OPEN", "FOO");
 
         // Act/Assert
         mockMvc.perform(post("/test")
@@ -111,7 +111,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void exception() throws Exception {
         // Arrange
-        String json = createJson();
+        var json = createJson();
 
         when(mock.foo()).thenThrow(new RuntimeException());
 
@@ -124,7 +124,7 @@ class GlobalExceptionHandlerTest {
 
     private String createJson() throws JsonProcessingException {
 
-        Pojo pojo = new Pojo();
+        var pojo = new Pojo();
         pojo.setFoo("foo");
 
         return objectMapper.writeValueAsString(pojo);
