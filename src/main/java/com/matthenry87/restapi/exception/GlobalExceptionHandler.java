@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,8 +17,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<Error>> methodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -56,7 +59,7 @@ public class GlobalExceptionHandler {
 
         var cause = e.getCause();
 
-        if(cause instanceof InvalidFormatException) {
+        if (cause instanceof InvalidFormatException) {
 
             var invalidFormatException = (InvalidFormatException) cause;
 
@@ -94,6 +97,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Error> exception(Exception e) {
+
+        log.error("ERROR", e);
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
