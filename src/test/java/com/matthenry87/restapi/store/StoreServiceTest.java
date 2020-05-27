@@ -40,7 +40,7 @@ class StoreServiceTest {
     @Test
     void getStore_works() {
         // Arrange
-        var id = "id";
+        String id = "id";
 
         when(storeRepository.findById(id)).thenReturn(Optional.of(new StoreEntity()));
 
@@ -54,7 +54,7 @@ class StoreServiceTest {
     @Test
     void getStore_throwsDoesntExistException_whenNoStoreFound() {
         // Arrange
-        var id = "id";
+        String id = "id";
 
         when(storeRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -65,7 +65,7 @@ class StoreServiceTest {
     @Test
     void createStore_works() {
         // Arrange
-        var store = new StoreEntity();
+        StoreEntity store = new StoreEntity();
 
         // Act
         storeService.createStore(store);
@@ -78,7 +78,7 @@ class StoreServiceTest {
     @Test
     void createStore_throwsAlreadyExistsException_whenStoreNameExists() {
         // Arrange
-        var store = new StoreEntity();
+        StoreEntity store = new StoreEntity();
 
         when(storeRepository.findByName(store.getName())).thenReturn(Optional.of(store));
 
@@ -89,7 +89,7 @@ class StoreServiceTest {
     @Test
     void updateStore_works() {
         // Arrange
-        var store = new StoreEntity();
+        StoreEntity store = new StoreEntity();
         store.setStatus(Status.OPEN);
 
         when(storeRepository.findById(store.getId())).thenReturn(Optional.of(store));
@@ -105,7 +105,7 @@ class StoreServiceTest {
     @Test
     void updateStore_throwsDoesntExistException_whenStoreNameExists() {
         // Arrange
-        var store = new StoreEntity();
+        StoreEntity store = new StoreEntity();
 
         when(storeRepository.findByName(store.getName())).thenReturn(Optional.of(store));
 
@@ -116,9 +116,9 @@ class StoreServiceTest {
     @Test
     void deleteStore_works() {
         // Arrange
-        var id = "id";
+        String id = "id";
 
-        var store = new StoreEntity();
+        StoreEntity store = new StoreEntity();
         store.setId(id);
 
         when(storeRepository.findById(id)).thenReturn(Optional.of(store));
@@ -133,7 +133,7 @@ class StoreServiceTest {
     @Test
     void deleteStore_throwsDoesntExistException_whenStoreDoesntExist() {
         // Arrange
-        var name = "name";
+        String name = "name";
 
         when(storeRepository.findByName(name)).thenReturn(Optional.empty());
 

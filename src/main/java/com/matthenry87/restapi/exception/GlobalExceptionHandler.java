@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,9 +26,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<Error>> methodArgumentNotValidException(MethodArgumentNotValidException e) {
 
-        var fieldErrors = e.getBindingResult().getFieldErrors();
+        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
 
-        var errors = fieldErrors.stream()
+        List<Error> errors = fieldErrors.stream()
                 .map(x -> new Error(x.getField(), x.getDefaultMessage()))
                 .collect(Collectors.toList());
 
@@ -37,11 +38,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Error> alreadyExistsException(AlreadyExistsException e) {
 
-        var exceptionMessage = e.getMessage();
+        String exceptionMessage = e.getMessage();
 
-        var message = exceptionMessage == null ? "already exists" : exceptionMessage;
+        String message = exceptionMessage == null ? "already exists" : exceptionMessage;
 
-        var error = new Error(null, message);
+        Error error = new Error(null, message);
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Error> notFoundException(NotFoundException e) {
 
-        var error = new Error(null, "not found");
+        Error error = new Error(null, "not found");
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -57,32 +58,32 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Error> httpMessageNotReadableException(HttpMessageNotReadableException e) {
 
-        var cause = e.getCause();
+        Throwable cause = e.getCause();
 
         if (cause instanceof InvalidFormatException) {
 
-            var invalidFormatException = (InvalidFormatException) cause;
+            InvalidFormatException invalidFormatException = (InvalidFormatException) cause;
 
-            var targetType = invalidFormatException.getTargetType();
+            Class<?> targetType = invalidFormatException.getTargetType();
 
             if (Enum.class.isAssignableFrom(targetType)) {
 
-                var enumConstants = (Enum[]) targetType.getEnumConstants();
+                Enum<?>[] enumConstants = (Enum<?>[]) targetType.getEnumConstants();
 
-                var values = Arrays.stream(enumConstants)
+                String values = Arrays.stream(enumConstants)
                         .map(Enum::name)
                         .collect(Collectors.joining(", "));
 
-                var message  = "Invalid value. Valid values: " + values;
-                var field = invalidFormatException.getPath().get(0).getFieldName();
+                String message  = "Invalid value. Valid values: " + values;
+                String field = invalidFormatException.getPath().get(0).getFieldName();
 
-                var error = new Error(field, message);
+                Error error = new Error(field, message);
 
                 return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
             }
         }
 
-        var error = new Error(null, e.getMessage());
+        Error error = new Error(null, e.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -90,7 +91,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Error> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
 
-        var error = new Error(null, e.getMessage());
+        Error error = new Error(null, e.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

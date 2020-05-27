@@ -36,7 +36,7 @@ class StoreControllerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        var storeController = new StoreController(storeService, storeMapper);
+        StoreController storeController = new StoreController(storeService, storeMapper);
 
         mockMvc = MockMvcBuilders.standaloneSetup(storeController)
                 .setControllerAdvice(new GlobalExceptionHandler())
@@ -58,8 +58,8 @@ class StoreControllerTest {
     @Test
     void getById_works() throws Exception {
         // Arrange
-        var storeEntity = new StoreEntity();
-        var storeModel = createStoreModel();
+        StoreEntity storeEntity = new StoreEntity();
+        StoreModel storeModel = createStoreModel();
 
         when(storeService.getStore("1")).thenReturn(storeEntity);
         when(storeMapper.toModel(storeEntity)).thenReturn(storeModel);
@@ -77,11 +77,11 @@ class StoreControllerTest {
     @Test
     void post_works() throws Exception {
         // Arrange
-        var storeModel = createStoreModel();
+        StoreModel storeModel = createStoreModel();
 
-        var json = objectMapper.writeValueAsString(storeModel);
+        String json = objectMapper.writeValueAsString(storeModel);
 
-        var storeEntity = new StoreEntity();
+        StoreEntity storeEntity = new StoreEntity();
 
         when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
 
@@ -99,11 +99,11 @@ class StoreControllerTest {
     @Test
     void put_works() throws Exception {
         // Arrange
-        var storeModel = createStoreModel();
+        StoreModel storeModel = createStoreModel();
 
-        var json = objectMapper.writeValueAsString(storeModel);
+        String json = objectMapper.writeValueAsString(storeModel);
 
-        var storeEntity = new StoreEntity();
+        StoreEntity storeEntity = new StoreEntity();
 
         when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
 
@@ -121,12 +121,12 @@ class StoreControllerTest {
     @Test
     void put_Returns400_whenStatusOmitted() throws Exception {
         // Arrange
-        var storeModel = createStoreModel();
+        StoreModel storeModel = createStoreModel();
         storeModel.setStatus(null);
 
-        var json = objectMapper.writeValueAsString(storeModel);
+        String json = objectMapper.writeValueAsString(storeModel);
 
-        var storeEntity = new StoreEntity();
+        StoreEntity storeEntity = new StoreEntity();
 
         when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
 
@@ -140,12 +140,12 @@ class StoreControllerTest {
     @Test
     void put_Returns400_whenAddressOmitted() throws Exception {
         // Arrange
-        var storeModel = createStoreModel();
+        StoreModel storeModel = createStoreModel();
         storeModel.setAddress(null);
 
-        var json = objectMapper.writeValueAsString(storeModel);
+        String json = objectMapper.writeValueAsString(storeModel);
 
-        var storeEntity = new StoreEntity();
+        StoreEntity storeEntity = new StoreEntity();
 
         when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
 
@@ -167,7 +167,7 @@ class StoreControllerTest {
 
     private StoreModel createStoreModel() {
 
-        var storeModel = new StoreModel();
+        StoreModel storeModel = new StoreModel();
 
         storeModel.setName("Store Name");
         storeModel.setAddress("123 High St");

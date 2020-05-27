@@ -31,7 +31,7 @@ public class StoreController {
     @GetMapping("/{id}")
     public StoreModel getById(@PathVariable String id) {
 
-        var storeEntity = storeService.getStore(id);
+        StoreEntity storeEntity = storeService.getStore(id);
 
         return storeMapper.toModel(storeEntity);
     }
@@ -39,7 +39,7 @@ public class StoreController {
     @PostMapping
     public ResponseEntity<StoreModel> post(@RequestBody @Validated(CreateStore.class) StoreModel storeModel) {
 
-        var storeEntity = storeMapper.toEntity(storeModel);
+        StoreEntity storeEntity = storeMapper.toEntity(storeModel);
 
         storeService.createStore(storeEntity);
 
@@ -54,7 +54,7 @@ public class StoreController {
 
         storeModel.setId(id);
 
-        var storeEntity = storeMapper.toEntity(storeModel);
+        StoreEntity storeEntity = storeMapper.toEntity(storeModel);
 
         storeService.updateStore(storeEntity);
 
