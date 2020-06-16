@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -59,6 +60,16 @@ public class StoreController {
         storeService.updateStore(storeEntity);
 
         return storeModel;
+    }
+
+    @PatchMapping("/{id}")
+    public StoreModel patch(@RequestBody Map<String, Object> map, @PathVariable String id) {
+
+        storeService.patchStore(id, map);
+
+        var store = storeService.getStore(id);
+
+        return storeMapper.toModel(store);
     }
 
     @DeleteMapping("/{id}")

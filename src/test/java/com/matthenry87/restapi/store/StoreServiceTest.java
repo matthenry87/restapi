@@ -1,5 +1,6 @@
 package com.matthenry87.restapi.store;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matthenry87.restapi.exception.AlreadyExistsException;
 import com.matthenry87.restapi.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,7 @@ class StoreServiceTest {
 
         MockitoAnnotations.initMocks(this);
 
-        storeService = new StoreService(storeRepository);
+        storeService = new StoreService(new ObjectMapper(), storeRepository);
     }
 
     @Test
