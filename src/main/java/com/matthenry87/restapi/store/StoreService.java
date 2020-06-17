@@ -1,13 +1,11 @@
 package com.matthenry87.restapi.store;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matthenry87.restapi.exception.AlreadyExistsException;
 import com.matthenry87.restapi.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.matthenry87.restapi.store.Status.OPEN;
 
@@ -61,25 +59,4 @@ class StoreService {
         storeRepository.deleteById(id);
     }
 
-
-    public void patchStore(String id, Map<String, Object> map) {
-
-        var existingStore = storeRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
-
-        try {
-
-            // TODO Figure out how to just use map instead of converting to json
-            var json = objectMapper.writeValueAsString(map);
-
-            StoreEntity updatedStore = objectMapper.readerForUpdating(existingStore).readValue(json);
-
-            storeRepository.save(updatedStore);
-
-        } catch (JsonProcessingException e) {
-
-            e.printStackTrace();
-        }
-
-    }
 }

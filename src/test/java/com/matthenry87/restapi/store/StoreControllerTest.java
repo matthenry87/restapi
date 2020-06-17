@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.Validator;
 
 import java.util.Arrays;
 
@@ -29,6 +30,9 @@ class StoreControllerTest {
     @Mock
     private StoreMapper storeMapper;
 
+    @Mock
+    private Validator validator;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
@@ -36,7 +40,7 @@ class StoreControllerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        var storeController = new StoreController(storeService, storeMapper);
+        var storeController = new StoreController(objectMapper, storeService, storeMapper, validator);
 
         mockMvc = MockMvcBuilders.standaloneSetup(storeController)
                 .setControllerAdvice(new GlobalExceptionHandler())

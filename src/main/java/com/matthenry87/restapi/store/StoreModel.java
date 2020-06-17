@@ -12,7 +12,8 @@ public class StoreModel {
 
     private String id;
 
-    @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
+    @NotEmpty
+//    @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
     private String name;
 
     @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
