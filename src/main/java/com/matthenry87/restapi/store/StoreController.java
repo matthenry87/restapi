@@ -110,7 +110,7 @@ public class StoreController {
         }
     }
 
-    private StoreModel overlayMapValues(@RequestBody Map<String, Object> map, StoreModel existingStoreModel) {
+    private StoreModel overlayMapValues(Map<String, Object> map, StoreModel existingStoreModel) {
 
         StoreModel updatedStoreModel = null;
 
