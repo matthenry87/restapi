@@ -1,21 +1,20 @@
 package com.matthenry87.restapi.store;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.Instant;
 
 @Getter
 @Setter
-@Document
-@NoArgsConstructor
 public class StoreEntity {
 
-    @Id private String id;
+    private String id;
     private String name;
     private String address;
     private String phone;
     private Status status;
+    @CreatedDate private Instant createdDateTime;
 
 }

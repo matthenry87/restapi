@@ -1,17 +1,21 @@
 package com.matthenry87.restapi.store;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.matthenry87.restapi.exception.GlobalExceptionHandler;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.matthenry87.exception.GlobalExceptionHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -29,16 +33,19 @@ class StoreControllerTest {
     @Mock
     private StoreMapper storeMapper;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @BeforeEach
     void init() {
 
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         var storeController = new StoreController(storeService, storeMapper);
 
+        HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+
         mockMvc = MockMvcBuilders.standaloneSetup(storeController)
+                .setMessageConverters(converter)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
     }
@@ -47,7 +54,7 @@ class StoreControllerTest {
     void get_works() throws Exception {
         // Arrange
         when(storeService.getStores()).thenReturn(Arrays.asList(new StoreEntity(), new StoreEntity()));
-        when(storeMapper.toModel(any(StoreEntity.class))).thenReturn(new StoreModel(), new StoreModel());
+        when(storeMapper.toModel(any(StoreEntity.class))).thenReturn(new StoreResource(), new StoreResource());
 
         // Act/Assert
         mockMvc.perform(get("/store"))
@@ -83,15 +90,24 @@ class StoreControllerTest {
 
         var storeEntity = new StoreEntity();
 
-        when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
+        StoreResource storeResource = new StoreResource();
+        storeResource.setAddress("123 High St");
+        storeResource.setName("Store Name");
+        storeResource.setPhone("3039993456");
+        storeResource.setStatus(Status.OPEN);
+
+        when(storeMapper.toEntity(any(StoreResource.class))).thenReturn(storeEntity);
+        when(storeMapper.toModel(storeEntity)).thenReturn(storeResource);
 
         // Act/Assert
         mockMvc.perform(post("/store")
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("{\"address\":\"123 High St\",\"name\":\"Store Name\"," +
-                        "\"phone\":\"3039993456\",\"status\":\"OPEN\"}"));
+                .andExpect(jsonPath("$.address", equalTo(storeResource.getAddress())))
+                .andExpect(jsonPath("$.name", equalTo(storeResource.getName())))
+                .andExpect(jsonPath("$.phone", equalTo(storeResource.getPhone())))
+                .andExpect(jsonPath("$.status", equalTo(storeResource.getStatus().name())));
 
         verify(storeService).createStore(storeEntity);
     }
@@ -105,7 +121,7 @@ class StoreControllerTest {
 
         var storeEntity = new StoreEntity();
 
-        when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
+        when(storeMapper.toEntity(any(StoreResource.class))).thenReturn(storeEntity);
 
         // Act/Assert
         mockMvc.perform(put("/store/1")
@@ -128,7 +144,7 @@ class StoreControllerTest {
 
         var storeEntity = new StoreEntity();
 
-        when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
+        when(storeMapper.toEntity(any(StoreResource.class))).thenReturn(storeEntity);
 
         // Act/Assert
         mockMvc.perform(put("/store/1")
@@ -147,7 +163,7 @@ class StoreControllerTest {
 
         var storeEntity = new StoreEntity();
 
-        when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
+        when(storeMapper.toEntity(any(StoreResource.class))).thenReturn(storeEntity);
 
         // Act/Assert
         mockMvc.perform(put("/store/1")
@@ -165,9 +181,9 @@ class StoreControllerTest {
         verify(storeService).deleteStore("1");
     }
 
-    private StoreModel createStoreModel() {
+    private StoreResource createStoreModel() {
 
-        var storeModel = new StoreModel();
+        var storeModel = new StoreResource();
 
         storeModel.setName("Store Name");
         storeModel.setAddress("123 High St");

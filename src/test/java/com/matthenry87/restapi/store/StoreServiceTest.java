@@ -1,11 +1,12 @@
 package com.matthenry87.restapi.store;
 
-import com.matthenry87.restapi.exception.AlreadyExistsException;
-import com.matthenry87.restapi.exception.NotFoundException;
+import com.matthenry87.exception.AlreadyExistsException;
+import com.matthenry87.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ class StoreServiceTest {
     @Mock
     private StoreRepository storeRepository;
 
+    @Mock
+    private RestTemplate restTemplate;
+
     private StoreService storeService;
 
     @BeforeEach
@@ -25,7 +29,7 @@ class StoreServiceTest {
 
         MockitoAnnotations.initMocks(this);
 
-        storeService = new StoreService(storeRepository);
+        storeService = new StoreService(storeRepository, restTemplate);
     }
 
     @Test

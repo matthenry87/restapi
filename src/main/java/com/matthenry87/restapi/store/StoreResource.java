@@ -5,10 +5,11 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 
 @Getter
 @Setter
-public class StoreModel {
+public class StoreResource {
 
     private String id;
 
@@ -21,7 +22,9 @@ public class StoreModel {
     @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
     private String phone;
 
-    @NotNull(groups = StoreController.UpdateStore.class)
+    @NotNull(groups = StoreController.UpdateStore.class) // Only required on updates
     private Status status;
+
+    private Instant createdDateTime;
 
 }

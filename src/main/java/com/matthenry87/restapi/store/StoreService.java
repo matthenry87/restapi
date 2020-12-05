@@ -1,21 +1,26 @@
 package com.matthenry87.restapi.store;
 
-import com.matthenry87.restapi.exception.AlreadyExistsException;
-import com.matthenry87.restapi.exception.NotFoundException;
+import com.matthenry87.exception.AlreadyExistsException;
+import com.matthenry87.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+import static com.matthenry87.logging.LoggingConstants.EVENT_NAME_KEY;
 import static com.matthenry87.restapi.store.Status.OPEN;
+import static net.logstash.logback.argument.StructuredArguments.keyValue;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
+@SuppressWarnings({"PlaceholderCountMatchesArgumentCount", "unused", "java:S2201"})
 class StoreService {
 
     private final StoreRepository storeRepository;
-
-    StoreService(StoreRepository storeRepository) {
-        this.storeRepository = storeRepository;
-    }
+    private final RestTemplate restTemplate;
 
     List<StoreEntity> getStores() {
 
@@ -29,8 +34,14 @@ class StoreService {
 
     void createStore(StoreEntity store) {
 
+        restTemplate.getForObject("/facts/590c752b5363e000200d5141", String.class);
+
+        log.info("This is a log statement");
+
+        log.info("This is a log statement with custom fields", keyValue(EVENT_NAME_KEY, "STORE_CREATED"));
+
         storeRepository.findByName(store.getName())
-                .ifPresent(x -> { throw new AlreadyExistsException(); });
+                .ifPresent(x -> { throw new AlreadyExistsException("store name"); });
 
         store.setStatus(OPEN);
 

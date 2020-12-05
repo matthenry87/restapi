@@ -1,0 +1,30 @@
+spring:
+    application:
+        name: restApi
+#    boot:
+#        admin:
+#            client:
+#                url: http://localhost:8081
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+
+catfacts:
+    url: https://cat-fact.herokuapp.com
+
+dilbert:
+    uri: http://gcomputer.net/webservices/dilbert.asmx
+
+logging:
+    level:
+        root: INFO
+    mvc:
+        log-resolved-exception: false
+
+worldpay:
+    log:
+        component-id: ComponentId
+        component-version: ComponentVersion
+        sub-system-id: SubsystemId
