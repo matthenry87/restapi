@@ -17,7 +17,7 @@ Store
 ```
 
 Dependencies used:
-* Spring Boot 2.2.6
+* Spring Boot 2.5.4
     * JUnit 5
     * Mockito
 * Spring Web(MVC)
