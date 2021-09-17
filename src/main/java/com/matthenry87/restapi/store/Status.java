@@ -1,6 +1,6 @@
 package com.matthenry87.restapi.store;
 
-public enum Status {
+enum Status {
 
     OPEN, CLOSED, SHUT_DOWN
 }

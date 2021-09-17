@@ -1,31 +1,27 @@
 package com.matthenry87.restapi.store;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {
 
     private final StoreService storeService;
     private final StoreMapper storeMapper;
 
-    public StoreController(StoreService storeService, StoreMapper storeMapper) {
-        this.storeService = storeService;
-        this.storeMapper = storeMapper;
-    }
-
     @GetMapping
     public List<StoreModel> get() {
 
         return storeService.getStores().stream()
                 .map(storeMapper::toModel)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -37,7 +33,8 @@ public class StoreController {
     }
 
     @PostMapping
-    public ResponseEntity<StoreModel> post(@RequestBody @Validated(CreateStore.class) StoreModel storeModel) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public StoreModel post(@RequestBody @Validated(CreateStore.class) StoreModel storeModel) {
 
         var storeEntity = storeMapper.toEntity(storeModel);
 
@@ -46,7 +43,7 @@ public class StoreController {
         storeModel.setId(storeEntity.getId());
         storeModel.setStatus(Status.OPEN);
 
-        return new ResponseEntity<>(storeModel, HttpStatus.CREATED);
+        return storeModel;
     }
 
     @PutMapping("/{id}")

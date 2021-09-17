@@ -2,6 +2,7 @@ package com.matthenry87.restapi.store;
 
 import com.matthenry87.restapi.exception.AlreadyExistsException;
 import com.matthenry87.restapi.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,13 +10,10 @@ import java.util.List;
 import static com.matthenry87.restapi.store.Status.OPEN;
 
 @Service
+@RequiredArgsConstructor
 class StoreService {
 
     private final StoreRepository storeRepository;
-
-    StoreService(StoreRepository storeRepository) {
-        this.storeRepository = storeRepository;
-    }
 
     List<StoreEntity> getStores() {
 

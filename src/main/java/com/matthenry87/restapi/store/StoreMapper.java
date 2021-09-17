@@ -3,7 +3,7 @@ package com.matthenry87.restapi.store;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface StoreMapper {
+interface StoreMapper {
 
     StoreEntity toEntity(StoreModel store);
 
