@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class StoreController {
 
         return storeService.getStores().stream()
                 .map(storeMapper::toModel)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
