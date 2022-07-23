@@ -2,7 +2,6 @@ package com.matthenry87.restapi.store;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,11 +58,10 @@ public class StoreController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable String id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String id) {
 
         storeService.deleteStore(id);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 interface UpdateStore {}

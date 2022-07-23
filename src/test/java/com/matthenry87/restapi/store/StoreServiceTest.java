@@ -4,15 +4,17 @@ import com.matthenry87.restapi.exception.AlreadyExistsException;
 import com.matthenry87.restapi.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 
+@ExtendWith(MockitoExtension.class)
 class StoreServiceTest {
 
     @Mock
@@ -22,8 +24,6 @@ class StoreServiceTest {
 
     @BeforeEach
     void init() {
-
-        openMocks(this);
 
         storeService = new StoreService(storeRepository);
     }
@@ -132,13 +132,8 @@ class StoreServiceTest {
 
     @Test
     void deleteStore_throwsDoesntExistException_whenStoreDoesntExist() {
-        // Arrange
-        var name = "name";
-
-        when(storeRepository.findByName(name)).thenReturn(Optional.empty());
-
         // Act/Assert
-        assertThrows(NotFoundException.class, () -> storeService.deleteStore(name));
+        assertThrows(NotFoundException.class, () -> storeService.deleteStore("name"));
     }
 
 }

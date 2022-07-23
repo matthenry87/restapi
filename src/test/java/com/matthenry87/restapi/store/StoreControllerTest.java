@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matthenry87.restapi.exception.GlobalExceptionHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -15,10 +17,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@ExtendWith(MockitoExtension.class)
 class StoreControllerTest {
 
     private MockMvc mockMvc;
@@ -33,8 +35,6 @@ class StoreControllerTest {
 
     @BeforeEach
     void init() {
-
-        openMocks(this);
 
         var storeController = new StoreController(storeService, storeMapper);
 
@@ -126,10 +126,6 @@ class StoreControllerTest {
 
         var json = objectMapper.writeValueAsString(storeModel);
 
-        var storeEntity = new StoreEntity();
-
-        when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
-
         // Act/Assert
         mockMvc.perform(put("/store/1")
                 .content(json)
@@ -144,10 +140,6 @@ class StoreControllerTest {
         storeModel.setAddress(null);
 
         var json = objectMapper.writeValueAsString(storeModel);
-
-        var storeEntity = new StoreEntity();
-
-        when(storeMapper.toEntity(any(StoreModel.class))).thenReturn(storeEntity);
 
         // Act/Assert
         mockMvc.perform(put("/store/1")
