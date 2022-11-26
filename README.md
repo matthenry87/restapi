@@ -17,9 +17,10 @@ Store
 ```
 
 Dependencies used:
-* Spring Boot 2.5.4
+* Spring Boot 3.0.0
     * JUnit 5
     * Mockito
+    * AssertJ
 * Spring Web(MVC)
 * Spring Data MongoDB
 * MapStruct
