@@ -24,7 +24,7 @@ public class StoreController {
     }
 
     @GetMapping("/{id}")
-    public StoreModel getById(@PathVariable String id) {
+    public StoreModel getById(@PathVariable Integer id) {
 
         var storeEntity = storeService.getStore(id);
 
@@ -46,7 +46,7 @@ public class StoreController {
     }
 
     @PutMapping("/{id}")
-    public StoreModel put(@RequestBody @Validated(UpdateStore.class) StoreModel storeModel, @PathVariable String id) {
+    public StoreModel put(@RequestBody @Validated(UpdateStore.class) StoreModel storeModel, @PathVariable Integer id) {
 
         storeModel.setId(id);
 
@@ -59,7 +59,7 @@ public class StoreController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable Integer id) {
 
         storeService.deleteStore(id);
     }

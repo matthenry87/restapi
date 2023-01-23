@@ -61,7 +61,7 @@ class StoreControllerTest {
         var storeEntity = new StoreEntity();
         var storeModel = createStoreModel();
 
-        when(storeService.getStore("1")).thenReturn(storeEntity);
+        when(storeService.getStore(1)).thenReturn(storeEntity);
         when(storeMapper.toModel(storeEntity)).thenReturn(storeModel);
 
         // Act/Assert
@@ -70,7 +70,7 @@ class StoreControllerTest {
                 .andExpect(content().json("{\"address\":\"123 High St\",\"name\":\"Store Name\"," +
                         "\"phone\":\"3039993456\",\"status\":\"OPEN\"}"));
 
-        verify(storeService).getStore("1");
+        verify(storeService).getStore(1);
         verify(storeMapper).toModel(storeEntity);
     }
 
@@ -154,7 +154,7 @@ class StoreControllerTest {
         mockMvc.perform(delete("/store/1"))
                 .andExpect(status().isNoContent());
 
-        verify(storeService).deleteStore("1");
+        verify(storeService).deleteStore(1);
     }
 
     private StoreModel createStoreModel() {

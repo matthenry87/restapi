@@ -21,7 +21,7 @@ class StoreService {
         return storeRepository.findAll();
     }
 
-    StoreEntity getStore(String id) {
+    StoreEntity getStore(Integer id) {
 
         return storeRepository.findById(id).orElseThrow(NotFoundException::new);
     }
@@ -47,7 +47,7 @@ class StoreService {
         storeRepository.save(store);
     }
 
-    void deleteStore(String id) {
+    void deleteStore(Integer id) {
 
         storeRepository.findById(id)
                 .orElseThrow(NotFoundException::new);

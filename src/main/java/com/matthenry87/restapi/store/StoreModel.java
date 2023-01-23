@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 class StoreModel {
 
-    private String id;
+    private Integer id;
 
     @NotEmpty(groups = {StoreController.UpdateStore.class, StoreController.CreateStore.class})
     private String name;

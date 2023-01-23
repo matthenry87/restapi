@@ -40,7 +40,7 @@ class StoreServiceTest {
     @Test
     void getStore_works() {
         // Arrange
-        var id = "id";
+        var id = 123;
 
         when(storeRepository.findById(id)).thenReturn(Optional.of(new StoreEntity()));
 
@@ -54,7 +54,7 @@ class StoreServiceTest {
     @Test
     void getStore_throwsDoesntExistException_whenNoStoreFound() {
         // Arrange
-        var id = "id";
+        var id = 123;
 
         when(storeRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -116,7 +116,7 @@ class StoreServiceTest {
     @Test
     void deleteStore_works() {
         // Arrange
-        var id = "id";
+        var id = 123;
 
         var store = new StoreEntity();
         store.setId(id);
@@ -133,7 +133,7 @@ class StoreServiceTest {
     @Test
     void deleteStore_throwsDoesntExistException_whenStoreDoesntExist() {
         // Act/Assert
-        assertThrows(NotFoundException.class, () -> storeService.deleteStore("name"));
+        assertThrows(NotFoundException.class, () -> storeService.deleteStore(123));
     }
 
 }
